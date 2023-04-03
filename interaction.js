@@ -24,6 +24,7 @@ function DnD(canvas, interactor) {
     this.startX = x;
     this.startY = y;
     this.isDragging = true;
+    console.log(`Mouse down event: (${x}, ${y})`);
   }
 
   function onMouseMove(evt) {
@@ -31,6 +32,7 @@ function DnD(canvas, interactor) {
       const { x, y } = getMousePosition(evt, this.canvas);
       this.endX = x;
       this.endY = y;
+      console.log(`Mouse move event: (${x}, ${y})`);
     }
   }
 
@@ -44,7 +46,7 @@ function DnD(canvas, interactor) {
       // Calculer le déplacement
       const deltaX = this.endX - this.startX;
       const deltaY = this.endY - this.startY;
-      console.log(`Le déplacement est de (${deltaX}, ${deltaY})`);
+      console.log(`Mouse up event: (${x}, ${y}), Delta: (${deltaX}, ${deltaY})`);
     }
   }
 
