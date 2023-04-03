@@ -17,6 +17,40 @@ function DnD(canvas, interactor) {
     canvas.addEventListener("mousedown", this.onMouseDown);
     canvas.addEventListener("mousemove", this.onMouseMove);
     canvas.addEventListener("mouseup", this.onMouseUp);
+
+    // Getters
+    function getStartX() {
+      return this.startX;
+    }
+
+    function getStartY() {
+      return this.startY;
+    }
+
+    function getEndX() {
+      return this.endX;
+    }
+
+    function getEndY() {
+      return this.endY;
+    }
+
+    // Setters
+    function setStartX(value) {
+      this.startX = value;
+    }
+
+    function setStartY(value) {
+      this.startY = value;
+    }
+
+    function setEndX(value) {
+      this.endX = value;
+    }
+
+    function setEndY(value) {
+      this.endY = value;
+    }
   }
 
   function onMouseDown(evt) {
@@ -49,6 +83,7 @@ function DnD(canvas, interactor) {
       console.log(`Mouse up event: (${x}, ${y}), Delta: (${deltaX}, ${deltaY})`);
     }
   }
+
 
 
 
