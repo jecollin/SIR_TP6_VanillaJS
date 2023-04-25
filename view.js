@@ -1,6 +1,5 @@
 // Implémenter ici les fonctions paint à ajouter dans chacune des classes du modèle.
 
-
 Drawing.prototype.draw = function(canvas) {
     const ctx = canvas.getContext("2d");
     for (let i = 0; i < this.shapes.length; i++) {
@@ -17,7 +16,6 @@ Drawing.prototype.draw = function(canvas) {
         }
     }
 };
-
 
 Shape.prototype.paint = function(ctx) {
     ctx.strokeStyle = this.getColor();
@@ -39,11 +37,11 @@ Line.prototype.paint = function(ctx) {
     ctx.stroke();
 };
 
-Drawing.prototype.paint = function(ctx) {
+Drawing.prototype.paint = function(ctx, canvas) {
     ctx.fillStyle = '#F0F0F0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    this.getShape().forEach(function(forme) {
-        forme.paint(ctx);
+    this.getShape().forEach(function(shape) {
+        shape.paint(ctx);
     });
 };
 
@@ -63,16 +61,14 @@ class View {
         this.canvas.addEventListener('mouseup', (event) => this.controller.onMouseUp(event));
 
         // Affichage initial
-        this.model.getShape().paint(this.ctx);
+        this.model.paint(this.ctx, this.canvas);
         this.updateShapeList();
-        model.getShape().paint(this.ctx)
     }
 
     update() {
-        this.model.getShape().paint(this.ctx);
+        this.model.paint(this.ctx, this.canvas);
         this.updateShapeList();
     }
-
     updateShapeList() {
         // Récupération de la liste des formes
         const shapes = this.model.getShape().getShape();
@@ -103,9 +99,16 @@ class View {
             item.appendChild(button);
             item.appendChild(text);
 
+            // Ajout de l'événement de suppression au bouton
+            button.addEventListener('click', () => {
+                this.model.removeShape(shape);
+                this.update();
+            });
+
             this.shapeList.appendChild(item);
         });
     }
+
 
 }
 
