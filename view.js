@@ -91,9 +91,21 @@ class View {
                 text = document.createTextNode(`Rectangle: (${shape.getX()}, ${shape.getY()}) - (${shape.getWidth()}, ${shape.getHeight()})`);
             }
 
+            // Ajout du bouton supprimer devant chaque élément
+            let button = document.createElement('button');
+            button.type = 'button';
+            button.classList.add('btn', 'btn-default');
+
+            let span = document.createElement('span');
+            span.classList.add('glyphicon', 'glyphicon-remove-sign');
+
+            button.appendChild(span);
+            item.appendChild(button);
             item.appendChild(text);
+
             this.shapeList.appendChild(item);
         });
     }
+
 }
 
