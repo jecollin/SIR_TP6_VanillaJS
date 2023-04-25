@@ -1,3 +1,4 @@
+import { updateShapeList } from './view.js';
 
 var editingMode = { rect: 0, line: 1 };
 
@@ -62,6 +63,7 @@ function Pencil(ctx, drawing, canvas) {
 			drawing.addShape(this.currentShape);
 			drawing.paint(ctx);
 			this.currentShape = null;
+			updateShapeList(drawing.getShape());
 		}
 	}
 

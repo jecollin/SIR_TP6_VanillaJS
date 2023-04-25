@@ -47,3 +47,53 @@ Drawing.prototype.paint = function(ctx) {
     });
 };
 
+class View {
+    constructor(controller, model) {
+        this.controller = controller;
+        this.model = model;
+
+        // Récupération des éléments du DOM
+        this.canvas = document.getElementById('paint');
+        this.ctx = this.canvas.getContext('2d');
+        this.shapeList = document.getElementById('shapeList');
+
+        // Gestion des événements
+        this.canvas.addEventListener('mousedown', (event) => this.controller.onMouseDown(event));
+        this.canvas.addEventListener('mousemove', (event) => this.controller.onMouseMove(event));
+        this.canvas.addEventListener('mouseup', (event) => this.controller.onMouseUp(event));
+
+        // Affichage initial
+        this.model.getShape().paint(this.ctx);
+        this.updateShapeList();
+        model.getShape().paint(this.ctx)
+    }
+
+    update() {
+        this.model.getShape().paint(this.ctx);
+        this.updateShapeList();
+    }
+
+    updateShapeList() {
+        // Récupération de la liste des formes
+        const shapes = this.model.getShape().getShape();
+
+        // Vidage de la liste actuelle
+        this.shapeList.innerHTML = '';
+
+        // Parcours de la liste des formes pour les afficher
+        shapes.forEach((shape) => {
+            let item = document.createElement('li');
+            let text;
+
+            if (shape instanceof Line) {
+                text = document.createTextNode(`Line: (${shape.getInitX()}, ${shape.getInitY()}) - (${shape.getFinalX()}, ${shape.getFinalY()})`);
+            } else if (shape instanceof Rectangle) {
+                text = document.createTextNode(`Rectangle: (${shape.getX()}, ${shape.getY()}) - (${shape.getWidth()}, ${shape.getHeight()})`);
+            }
+
+            item.appendChild(text);
+            this.shapeList.appendChild(item);
+        });
+    }
+}
+
