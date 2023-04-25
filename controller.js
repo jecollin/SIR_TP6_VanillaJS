@@ -12,6 +12,44 @@ function Pencil(ctx, drawing, canvas) {
 	new DnD(canvas, this);
 
 	// Implémentez ici les 3 fonctions onInteractionStart, onInteractionUpdate et onInteractionEnd
+	this.onInteractionStart = function(dnd) {
+		if (this.currEditingMode === editingMode.line) {
+			this.currentShape = new Line(dnd.x1, dnd.y1, dnd.x2, dnd.y2, this.currLineWidth, this.currColour);
+		} else if (this.currEditingMode === editingMode.rect) {
+			this.currentShape = new Rectangle(dnd.x1, dnd.y1, dnd.x2 - dnd.x1, dnd.y2 - dnd.y1, this.currLineWidth, this.currColour);
+		}
+	}
+
+
+	this.onInteractionUpdate = function(dnd) {
+		if (this.currentShape) {
+			if (this.currEditingMode === editingMode.line) {
+				this.currentShape.x2 = dnd.x2;
+				this.currentShape.y2 = dnd.y2;
+			} else if (this.currEditingMode === editingMode.rect) {
+				this.currentShape.width = dnd.x2 - dnd.x1;
+				this.currentShape.height = dnd.y2 - dnd.y1;
+			}
+			drawing.paint(ctx);
+			this.currentShape.paint(ctx);
+		}
+	}
+
+	this.onInteractionEnd = function(dnd) {
+		if (this.currentShape) {
+			if (this.currEditingMode === editingMode.line) {
+				this.currentShape.x2 = dnd.x2;
+				this.currentShape.y2 = dnd.y2;
+			} else if (this.currEditingMode === editingMode.rect) {
+				this.currentShape.width = dnd.x2 - dnd.x1;
+				this.currentShape.height = dnd.y2 - dnd.y1;
+			}
+			drawing.addShape(this.currentShape);
+			drawing.paint(ctx);
+			this.currentShape = null;
+		}
+	}
+
 };
 
 
