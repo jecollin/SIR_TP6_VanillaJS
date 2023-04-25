@@ -10,11 +10,11 @@ class Drawing {
         this.shapes.push(shape);
     }
 
-    getShape() {
+    getShapes() {
         return this.shapes;
     }
 
-    removeShape(shape) {
+    deleteShape(shape) {
         const index = this.shapes.indexOf(shape);
         if (index !== -1) {
             this.shapes.splice(index, 1);
@@ -24,7 +24,7 @@ class Drawing {
     paint(ctx) {
         ctx.fillStyle = '#F0F0F0';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        this.getShape().forEach(function(forme) {
+        this.getShapes().forEach(function(forme) {
             forme.paint(ctx);
         });
     }

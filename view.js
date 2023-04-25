@@ -40,7 +40,7 @@ Line.prototype.paint = function(ctx) {
 Drawing.prototype.paint = function(ctx, canvas) {
     ctx.fillStyle = '#F0F0F0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    this.getShape().forEach(function(shape) {
+    this.getShapes().forEach(function(shape) {
         shape.paint(ctx);
     });
 };
@@ -54,24 +54,32 @@ class View {
         this.canvas = document.getElementById('paint');
         this.ctx = this.canvas.getContext('2d');
         this.shapeList = document.getElementById('shapeList');
+        this.undoButton = document.getElementById('undo');
+        this.redoButton = document.getElementById('redo');
 
         // Gestion des événements
         this.canvas.addEventListener('mousedown', (event) => this.controller.onMouseDown(event));
         this.canvas.addEventListener('mousemove', (event) => this.controller.onMouseMove(event));
         this.canvas.addEventListener('mouseup', (event) => this.controller.onMouseUp(event));
+        this.undoButton.addEventListener('click', () => this.controller.onUndo());
+        this.redoButton.addEventListener('click', () => this.controller.onRedo());
 
         // Affichage initial
-        this.model.paint(this.ctx, this.canvas);
+        this.model.getShapes().draw(this.canvas);
         this.updateShapeList();
+        this.updateUndoRedoButtons();
     }
 
     update() {
-        this.model.paint(this.ctx, this.canvas);
+        this.model.getShapes().draw(this.canvas);
         this.updateShapeList();
+        this.updateUndoRedoButtons();
     }
+
     updateShapeList() {
         // Récupération de la liste des formes
-        const shapes = this.model.getShape().getShape();
+        const shapes = this.model.getShapes().getShapes();
+        const drawing = new Drawing();
 
         // Vidage de la liste actuelle
         this.shapeList.innerHTML = '';
@@ -101,14 +109,27 @@ class View {
 
             // Ajout de l'événement de suppression au bouton
             button.addEventListener('click', () => {
-                this.model.removeShape(shape);
-                this.update();
+                this.controller.onDelete(shape);
             });
 
             this.shapeList.appendChild(item);
         });
     }
 
+    updateUndoRedoButtons() {
+        if (this.model.onUndo()) {
+            this.undoButton.disabled = false;
+        } else {
+            this.undoButton.disabled = true;
+        }
+
+        if (this.model.onRedo()) {
+            this.redoButton.disabled = false;
+        } else {
+            this.redoButton.disabled = true;
+        }
+    }
 
 }
+
 
