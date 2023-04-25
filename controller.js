@@ -8,6 +8,21 @@ function Pencil(ctx, drawing, canvas) {
 	this.currentShape = 0;
 
 	// Liez ici les widgets à la classe pour modifier les attributs présents ci-dessus.
+	document.getElementById("spinnerWidth").onchange = (event) => {
+		this.currLineWidth = event.target.value;
+	};
+
+	document.getElementById("colour").onchange = (event) => {
+		this.currColour = event.target.value;
+	};
+
+	document.getElementById("butRect").onclick = () => {
+		this.currEditingMode = editingMode.rect;
+	};
+
+	document.getElementById("butLine").onclick = () => {
+		this.currEditingMode = editingMode.line;
+	};
 
 	new DnD(canvas, this);
 
@@ -50,6 +65,6 @@ function Pencil(ctx, drawing, canvas) {
 		}
 	}
 
-};
+}
 
 
