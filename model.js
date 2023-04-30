@@ -159,11 +159,6 @@ class Circle extends Shape {
         ctx.lineWidth = this.thickness;
         ctx.stroke();
     }
-    //Pour ajouter cette forme à votre application, vous devrez ajouter des événements de clic pour les boutons qui
-    // permettent à l'utilisateur de sélectionner le cercle comme forme en cours d'édition, et modifier les méthodes
-    // onInteractionStart, onInteractionUpdate et onInteractionEnd de la classe Pencil pour prendre en charge cette
-    // nouvelle forme. Vous devrez également ajouter une méthode pour ajouter un cercle à la liste des formes dessinées,
-    // similaire à la méthode addShape existante.
 }
 
 
